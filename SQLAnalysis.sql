@@ -38,10 +38,25 @@ SELECT COUNT(*) as tweetsFromUS FROM tweets WHERE Country = 'United States';
 SELECT TweetID, RetweetCount FROM tweets WHERE RetweetCount = (SELECT MAX(RetweetCount) FROM tweets);
 
 -- 13. Find tweets with sentiment 'Negative' and Klout score less than 40.
+SELECT * FROM tweets WHERE sentiment < 0 AND Klout < 40 ORDER BY Sentiment, Klout DESC LIMIT 10;
+
 -- 14. Calculate the average Likes for tweets posted on weekends (Saturday and Sunday).
+SELECT ROUND(AVG(Likes), 3) AS WeekendTweetAvg FROM tweets WHERE Weekday IN ('Saturday','Sunday');
+
 -- 15. Retrieve tweets posted in the city of 'New York.'
+SELECT * FROM tweets WHERE City LIKE '%New York%' LIMIT 10;
+
 -- 16. Identify tweets where Reach is greater than 1000. Display the TweetID and Reach.
+SELECT TweetID, Reach FROM tweets WHERE Reach > 1000 ORDER BY TweetID, Reach ASC LIMIT 10;
+
 -- 17. Find the user (UserID) with the highest total engagement (sum of RetweetCount and Likes).
+SELECT UserID, (RetweetCount + Likes) as TotalEngagement FROM tweets WHERE (RetweetCount + Likes) = (SELECT MAX(RetweetCount + Likes) FROM tweets);
+
 -- 18. List tweets with sentiment 'Neutral' and Lang as 'English.'
+SELECT * FROM tweets WHERE Sentiment = 0 AND Lang = 'en' LIMIT 10;
+
 -- 19. Calculate the total engagement (sum of RetweetCount and Likes) for each tweet.
+SELECT UserID, (RetweetCount + Likes) as TotalEngagement FROM tweets GROUP BY UserID ORDER BY TotalEngagement DESC LIMIT 10;
+
 -- 20. Retrieve tweets with sentiment 'Positive' or 'Neutral' and Lang as 'English' or 'Spanish.'
+SELECT * FROM tweets WHERE Sentiment >= 0 AND Lang IN ('en', 'es') LIMIT 10;
